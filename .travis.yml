@@ -1,0 +1,27 @@
+language: generic
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -t gasperfurman/react-test -f ./client/Dockerfile.dev ./client
+
+script: 
+    - docker run -e CI=true gasperfurman/react-test npm run test
+
+
+after_success:
+    - docker build -t gasperfurman/multi-client ./client
+    - docker build -t gasperfurman/multi-nginx ./nginx
+    - docker build -t gasperfurman/multi-server ./server
+    - docker build -t gasperfurman/multi-worker ./worker
+
+    # Log in the docker CLI
+
+    - echo "$DOCKER_PASSWORD" | docker-login -u "$DOCKER_ID" --password-stdin
+
+    # Push images to dockerhub
+    - docker push gasperfurman/multi-client
+    - docker push gasperfurman/multi-nginx
+    - docker push gasperfurman/multi-server
+    - docker push gasperfurman/multi-worker

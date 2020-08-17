@@ -4,25 +4,24 @@ services:
     - docker
 
 before_install:
-    - docker build -t gasperfurman/react-test -f ./client/Dockerfile.dev ./client
+    - docker build -t merjasec/react-test -f ./client/Dockerfile.dev ./client
 
 script: 
-    - docker run -e CI=true gasperfurman/react-test npm run test
+    - docker run -e CI=true merjasec/react-test npm run test
 
 
 after_success:
-    - docker build -t gasperfurman/multi-client ./client
-    - docker build -t gasperfurman/multi-nginx ./nginx
-    - docker build -t gasperfurman/multi-server ./server
-    - docker build -t gasperfurman/multi-worker ./worker
+    - docker build -t merjasec/multi-client ./client
+    - docker build -t merjasec/multi-nginx ./nginx
+    - docker build -t merjasec/multi-server ./server
+    - docker build -t merjasec/multi-worker ./worker
 
     # Log in the docker CLI
-
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
     # Push images to dockerhub
-    - docker push gasperfurman/multi-client
-    - docker push gasperfurman/multi-nginx
-    - docker push gasperfurman/multi-server
-    - docker push gasperfurman/multi-worker
+    - docker push merjasec/multi-client
+    - docker push merjasec/multi-nginx
+    - docker push merjasec/multi-server
+    - docker push merjasec/multi-worker
 

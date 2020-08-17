@@ -25,3 +25,4 @@ after_success:
     - docker push gasperfurman/multi-nginx
     - docker push gasperfurman/multi-server
     - docker push gasperfurman/multi-worker
+

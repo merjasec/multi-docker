@@ -1,0 +1,36 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "conteinerDefinitions": [
+        {
+            "name": "client",
+            "image": "merjasec/multi-client",
+            "hostname": "client",
+            "essential": false
+        },
+        {
+            "name": "server",
+            "image": "merjasec/multi-server",
+            "hostname": "api",
+            "essential": false
+        },
+        {
+            "name": "woker",
+            "image": "merjasec/multi-worker",
+            "hostname": "worker",
+            "essential": false
+        },
+        {
+            "name": "nginx",
+            "image": "merjasec/multi-nginx",
+            "hostname": "nginx",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": ["client", "server"]
+        }
+    ]
+}
